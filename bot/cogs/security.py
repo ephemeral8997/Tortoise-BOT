@@ -149,13 +149,13 @@ class Security(commands.Cog):
                         f"Hey {message.author} , your {extension} file is over 4MB so I will be deleting it.\n\n"
                         f"If you have a question please have a minimum reproducible code example."
                     )
-                else:
-                    file_content = await attachment.read()
-                    url = await self.create_pastebin_link(file_content)
-                    reply = (
-                        f"Hey {message.author} , I've uploaded your file to our pastebin for easier viewing: "
-                        f"[**{attachment.filename}** {url}]"
-                    )
+                # else:
+                #     file_content = await attachment.read()
+                #     url = await self.create_pastebin_link(file_content)
+                #     reply = (
+                #         f"Hey {message.author} , I've uploaded your file to our pastebin for easier viewing: "
+                #         f"[**{attachment.filename}** {url}]"
+                #     )
             elif extension not in allowed_file_extensions:
                 reply = (
                     f"Hey {message.author}, {extension} file extension is not allowed here.\n "
