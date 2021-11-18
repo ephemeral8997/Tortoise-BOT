@@ -177,8 +177,8 @@ class TortoiseServer(commands.Cog):
         return rules_embed
 
     async def _new_member_register_in_database(self, member: discord.Member):
-        logger.info(f"New member {member} does not exist in database, adding now.")
-        await self.bot.api_client.insert_new_member(member)
+        # logger.info(f"New member {member} does not exist in database, adding now.")
+        # await self.bot.api_client.insert_new_member(member)
         await member.add_roles(self.new_member_role)
         await self.log_channel.send(embed=welcome(f"{member} has joined the Tortoise Community."))
         dm_msg = (
@@ -191,10 +191,10 @@ class TortoiseServer(commands.Cog):
         await member.send(embed=footer_embed(dm_msg, "Welcome"))
 
     async def _member_re_joined(self, member: discord.Member):
-        logger.info(f"Member {member} re-joined and is verified in database, adding previous roles..")
-        previous_roles = await self.bot.api_client.get_member_roles(member.id)
-        await self.add_verified_roles_to_member(member, previous_roles)
-        await self.bot.api_client.member_rejoined(member)
+        # logger.info(f"Member {member} re-joined and is verified in database, adding previous roles..")
+        # previous_roles = await self.bot.api_client.get_member_roles(member.id)
+        # await self.add_verified_roles_to_member(member, previous_roles)
+        # await self.bot.api_client.member_rejoined(member)
         await self.log_channel.send(embed=welcome(f"{member} has returned to Tortoise Community."))
         msg = (
             "Welcome back to Tortoise Community!\n\n"
@@ -222,12 +222,12 @@ class TortoiseServer(commands.Cog):
                 else:
                     await self._member_re_joined(after)
 
-        if before.roles == after.roles or self._database_role_update_lock:
-            return
-
-        roles_ids = [role.id for role in after.roles]
-        logger.debug(f"Roles from member {after} changed, changing database field to: {roles_ids}")
-        await self.bot.api_client.edit_member_roles(after, roles_ids)
+        # if before.roles == after.roles or self._database_role_update_lock:
+        #     return
+        #
+        # roles_ids = [role.id for role in after.roles]
+        # logger.debug(f"Roles from member {after} changed, changing database field to: {roles_ids}")
+        # await self.bot.api_client.edit_member_roles(after, roles_ids)
 
     async def add_verified_roles_to_member(self, member: discord.Member, additional_roles: Iterable[int] = tuple()):
         self._database_role_update_lock = True
