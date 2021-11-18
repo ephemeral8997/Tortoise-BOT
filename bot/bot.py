@@ -29,8 +29,8 @@ class Bot(commands.Bot):
         self._was_ready_once = False
         self.tortoise_meta_cache = {
             "event_submission": False,
-            "mod_mail": False,
-            "bug_report": False,
+            "mod_mail": True,
+            "bug_report": True,
             "suggestions": False
         }
 
@@ -48,7 +48,7 @@ class Bot(commands.Bot):
     async def on_first_ready(self):
         self.load_extensions()
         await self.change_presence(activity=discord.Game(name="DM to Contact Staff"))
-        await self.reload_tortoise_meta_cache()
+        # await self.reload_tortoise_meta_cache()
         try:
             version = subprocess.check_output(["git", "describe", "--always"]).strip().decode("utf-8")
             bot_log_channel = self.get_channel(bot_log_channel_id)
