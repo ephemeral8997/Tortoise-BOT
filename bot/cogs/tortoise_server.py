@@ -35,7 +35,7 @@ class TortoiseServer(commands.Cog):
         self._rules = None
         self.update_member_count_channel.start()
         self.remove_new_member_role.start()
-        self.bot.loop.create_task(self.refresh_rules_helper())
+        # self.bot.loop.create_task(self.refresh_rules_helper())
         self.SUGGESTION_MESSAGE_CONTENT = "React to this message to add new suggestion"
 
     async def create_new_suggestion_message(self) -> int:
@@ -102,7 +102,7 @@ class TortoiseServer(commands.Cog):
                 try:
                     await member.remove_roles(self.new_member_role)
                 except HTTPException:
-                    logger.warning(f"Bot could't remove new member role from {member} {member.id}")
+                    logger.warning(f"Bot couldn't remove new member role from {member} {member.id}")
 
     @commands.command(enabled=False)
     @commands.check(check_if_it_is_tortoise_guild)
@@ -211,16 +211,17 @@ class TortoiseServer(commands.Cog):
         if before.pending is True and after.pending is False:
 
             logger.info(f"New member verified from discord {after}")
-            try:
-                member_meta = await self.bot.api_client.get_member_meta(after.id)
-            except ResponseCodeError:
-                await self._new_member_register_in_database(after)
-            else:
-                if member_meta["leave_date"] is None and member_meta["verified"]:
-                    # Could be put to use for new website
-                    pass
-                else:
-                    await self._member_re_joined(after)
+            # try:
+            #     member_meta = await self.bot.api_client.get_member_meta(after.id)
+            # except ResponseCodeError:
+            #     pass
+            await self._new_member_register_in_database(after)
+            # else:
+            # if member_meta["leave_date"] is None and member_meta["verified"]:
+            #     # Could be put to use for new website
+            #     pass
+            # else:
+            #     await self._member_re_joined(after)
 
         # if before.roles == after.roles or self._database_role_update_lock:
         #     return
